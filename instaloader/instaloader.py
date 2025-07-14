@@ -1482,7 +1482,7 @@ class Instaloader:
         error_handler = _error_raiser if raise_errors else self.context.error_catcher
 
         for i, profile in enumerate(profiles, start=1):
-           if len(profiles) > 1:
+            if len(profiles) > 1:
                self.context.log("[{0:{w}d}/{1:{w}d}] Downloading profile {2}".format(i, len(profiles), profile.username,
                                                                                   w=len(str(len(profiles)))))
             else:
