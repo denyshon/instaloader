@@ -82,16 +82,24 @@ def filterstr_to_filterfunc(filter_str: str, item_type: type):
     return filterfunc
 
 
-def get_cookies_from_instagram(domain, browser, cookie_file=None, cookie_name=''):
+def get_cookies_from_instagram(domain, browser, cookie_file='', cookie_name=''):
     supported_browsers = {
+        "brave": browser_cookie3.brave,
+        "chrome": browser_cookie3.chrome,
+        "chromium": browser_cookie3.chromium,
+        "edge": browser_cookie3.edge,
         "firefox": browser_cookie3.firefox,
         "librewolf": browser_cookie3.librewolf,
-        "safari": browser_cookie3.safari
+        "opera": browser_cookie3.opera,
+        "opera_gx": browser_cookie3.opera_gx,
+        "safari": browser_cookie3.safari,
+        "vivaldi": browser_cookie3.vivaldi,
     }
 
     if browser not in supported_browsers:
         raise InvalidArgumentException("Loading cookies from the specified browser failed\n"
-                                       "Supported browsers are Firefox, LibreWolf and Safari")
+                                       "Supported browsers are Brave, Chrome, Chromium, Edge, Firefox, LibreWolf, "
+                                       "Opera, Opera_GX, Safari and Vivaldi")
 
     cookies = {}
     browser_cookies = list(supported_browsers[browser](cookie_file=cookie_file))
@@ -112,7 +120,7 @@ def get_cookies_from_instagram(domain, browser, cookie_file=None, cookie_name=''
         return cookies
 
 
-def import_session(browser, instaloader, cookiefile=None):
+def import_session(browser, instaloader, cookiefile):
     cookie = get_cookies_from_instagram('instagram', browser, cookiefile)
     if cookie is not None:
         instaloader.context.update_cookies(cookie)
