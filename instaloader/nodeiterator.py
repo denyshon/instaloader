@@ -2,6 +2,7 @@ import base64
 import hashlib
 import json
 import os
+from .exceptions import QueryReturnedBadRequestException
 from contextlib import contextmanager
 from datetime import datetime, timedelta
 from lzma import LZMAError
@@ -324,6 +325,8 @@ def resumable_iteration(context: InstaloaderContext,
         save(iterator.freeze(), resume_file_path)
         context.log("\nSaved resume information to {}.".format(resume_file_path))
         raise
-    if resume_file_exists:
-        os.unlink(resume_file_path)
-        context.log("Iteration complete, deleted resume information file {}.".format(resume_file_path))
+    finally:
+        if resume_file_exists:
+            os.unlink(resume_file_path)
+            context.log("Iteration complete, deleted resume information file {}.".format(resume_file_path))
+
